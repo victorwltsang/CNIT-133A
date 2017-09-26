@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Homework 3</title>
+    <meta charset="utf-8">
+    <script src="files/d3.min.js"></script>
+    <style>
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Students in CNIT 132</h2>
+    <script>
+        var barWidth = 40,barSpace = 10;
+
+
+        d3.json("hw3data.json", function(data) {
+            var canvas = d3.select("body").append("svg")
+                .attr("width", 900)
+                .attr("height", 500);
+
+
+            canvas.selectAll("rect").data(data)
+                .enter().append("rect")
+                .style("fill", "blue")
+                .attr("width", function(d) {
+                    return d.students * 5;
+                })
+                .attr("height", 40)
+                .attr("y", function(d, i) {
+                    return i * (barWidth + barSpace)
+                });
+
+
+
+            canvas.selectAll("text").data(data)
+                .enter()
+                .append("text")
+                .attr("class", function(d, i) {
+                    return "label" + d.students;
+                })
+                .attr("x", 5)
+                .attr("width", function(d) {
+                    return d.students * 5;
+                })
+                .attr("height", 50)
+                .attr("y", function(d, i) {
+                    return (barWidth + barSpace) * i + 25;
+                })
+                .text(function(d) {
+                    return d.term + " w/ " + d.students + " students";
+                })
+                .style("fill", "white");
+
+        });
+    </script>
+</body>
+
+</html>
